@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+    PascalTriangle
+    By Michael Hou
+    07/26/2019
+-->
+<html>
+
+<head>
+    <title>Pascal's Triangle</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">Pascal's Triangle Coding Problem</span>
+    </nav>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">By Michael Hou</a>
+    </nav>
+
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text">
+                <input class="form-control" placeholder="Please input the number of row" id="input" type="number"
+                    onkeyup="regex()">
+                <div id="valid" class="invalid-feedback"></div>
+            </p>
+            <button id="button" class="btn btn-primary" onclick="getTriangle()">Get Triangle</button>
+        </div>
+    </div>
+    <div class="container" id="container">
+
+    </div>
+    <script>
+        function regex() {
+            var patt = /^[1-9]\d*$/;
+            if (patt.test(document.getElementById('input').value)) {
+                document.getElementById('button').disabled = false;
+                document.getElementById('valid').innerHTML = '';
+                document.getElementById('valid').style.display = 'none';
+            } else {
+                document.getElementById('button').disabled = true;
+                document.getElementById('valid').innerHTML = 'Invalid input';
+                document.getElementById('valid').style.display = 'block';
+            }
+        }
+        function getTriangle() {
+            var row = document.getElementById('input').value;
+            document.getElementById('container').innerHTML = "Pascal's Triangle with " + row + " rows:";
+            var result = [];
+            for (var i = 0; i < row; i++) {
+                var rows = [1];
+                if (i === 0) {
+                    result.push(rows);
+                } else if (i === 1) {
+                    rows.push(1);
+                    result.push(rows);
+                } else {
+                    for (var j = 0; j < i - 1; j++) {
+                        rows.push(result[i - 1][j] + result[i - 1][j + 1]);
+                    }
+                    rows.push(1);
+                    result.push(rows);
+                }
+            }
+            var container = document.getElementById('container');
+            for (var i=0; i<result.length; i++) {
+                var p = document.createElement("p");
+                var text = document.createTextNode(result[i]);
+                p.appendChild(text);
+                container.appendChild(p);
+            }
+        }
+    </script>
+</body>
+
+</html>
